@@ -1,8 +1,16 @@
-# Aadhaar Compass
+# Aadhaar Drishti
 
-## Project info
+**Societal Signals from Enrolment and Update Data**
 
-This is an Aadhaar analytics dashboard project.
+## About the Project
+
+**Aadhaar Drishti** (दृष्टि - meaning "vision" or "perspective" in Sanskrit) is a governance-grade analytical dashboard that transforms Aadhaar administrative data into actionable insights for policy planning and infrastructure assessment. The platform provides an analytical perspective on enrolment and update patterns, identifying regions and periods exhibiting unusual activity relative to national baselines.
+
+Built for the UIDAI Hackathon, Drishti serves as a decision-support instrument for administrators, presenting comparative indicators and observable patterns without claiming causation or prediction. All analysis is based on aggregate, anonymized data, maintaining strict privacy and transparency standards.
+
+## Project Info
+
+This is a read-only, frontend-only analytical dashboard designed for administrative review.
 
 ## How can I edit this code?
 

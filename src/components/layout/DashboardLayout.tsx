@@ -13,8 +13,8 @@ interface DashboardLayoutProps {
 
 const sectionTitles: Record<string, { title: string; subtitle: string }> = {
   overview: {
-    title: "Aadhaar Insights Engine",
-    subtitle: "Transforming enrolment and update data into actionable societal signals",
+    title: "Aadhaar Drishti",
+    subtitle: "Societal Signals from Enrolment and Update Data",
   },
   enrolment: {
     title: "Enrolment Analysis",

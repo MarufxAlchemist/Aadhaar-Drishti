@@ -14,7 +14,7 @@ export function Header({ title, subtitle, onFilterChange }: HeaderProps) {
           <div className="flex items-center gap-3">
             <img
               src="/aadhaar-logo.png"
-              alt="Aadhaar Insights Engine"
+              alt="Aadhaar Drishti"
               className="h-12 w-auto"
             />
             <div>
