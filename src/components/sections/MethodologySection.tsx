@@ -181,6 +181,47 @@ export function MethodologySection() {
             </div>
           </AccordionContent>
         </AccordionItem>
+
+        <AccordionItem value="boundaries" className="gov-card border-0">
+          <AccordionTrigger className="px-5 py-4 hover:no-underline">
+            <span className="font-medium text-foreground">Interpretation Boundaries</span>
+          </AccordionTrigger>
+          <AccordionContent className="px-5 pb-5">
+            <div className="space-y-4 text-sm text-muted-foreground">
+              <p className="text-foreground font-medium">
+                Important Considerations for Administrative Review
+              </p>
+
+              <div>
+                <h4 className="font-medium text-foreground mb-2">Patterns, Not Causes</h4>
+                <p>
+                  Metrics highlight observable patterns in administrative data. They do not establish causal relationships or predict future outcomes. Variations may reflect multiple underlying factors including infrastructure, demographics, policy implementation, or data collection practices.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-foreground mb-2">Comparative Context</h4>
+                <p>
+                  Values are presented relative to national baselines and peer states. They represent comparative positions, not absolute judgments of performance. National baseline references indicate median values across all states, not optimal thresholds.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-foreground mb-2">Administrative Context Required</h4>
+                <p>
+                  Insights should be interpreted alongside local administrative knowledge, infrastructure constraints, demographic factors, and policy context. Numerical patterns warrant investigation but require contextual understanding for actionable conclusions.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-foreground mb-2">Data Limitations</h4>
+                <p>
+                  Analysis is based on aggregate, anonymized data. Individual transaction details, user demographics, and contextual factors are not captured. Temporal patterns may reflect seasonal variations, policy changes, or administrative cycles rather than structural trends.
+                </p>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
     </div>
   );

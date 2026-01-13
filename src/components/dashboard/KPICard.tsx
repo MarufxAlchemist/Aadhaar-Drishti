@@ -13,6 +13,7 @@ interface KPICardProps {
   trend?: "up" | "down" | "neutral";
   trendValue?: string;
   tooltip?: string;
+  interpretation?: string;
   className?: string;
 }
 
@@ -23,6 +24,7 @@ export function KPICard({
   trend,
   trendValue,
   tooltip,
+  interpretation,
   className,
 }: KPICardProps) {
   const TrendIcon =
@@ -32,8 +34,8 @@ export function KPICard({
     trend === "up"
       ? "text-success"
       : trend === "down"
-      ? "text-destructive"
-      : "text-muted-foreground";
+        ? "text-destructive"
+        : "text-muted-foreground";
 
   return (
     <div className={cn("kpi-card p-5", className)}>
@@ -67,6 +69,11 @@ export function KPICard({
               <span className="text-sm text-muted-foreground">{subtitle}</span>
             )}
           </div>
+        )}
+        {interpretation && (
+          <p className="text-xs text-gray-600 mt-2 italic">
+            {interpretation}
+          </p>
         )}
       </div>
     </div>
