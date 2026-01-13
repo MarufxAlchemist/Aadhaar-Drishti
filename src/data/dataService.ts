@@ -97,6 +97,42 @@ export interface AadhaarBiometricUpdateRecord {
     bio_age_17_: number;
 }
 
+/**
+ * Monthly Aggregate Enrolment Statistics (All States Combined)
+ * 
+ * CSV Columns: req_month,cnt,cumulative
+ * 
+ * Represents monthly enrolment totals across all states with cumulative counts.
+ */
+export interface MonthlyEnrolmentAggregate {
+    /** Month in YYYY-MMM format (e.g., "2025-Jan") */
+    req_month: string;
+
+    /** Monthly enrolment count */
+    cnt: number;
+
+    /** Cumulative total enrolments */
+    cumulative: number;
+}
+
+/**
+ * Monthly Aggregate Update Statistics (All Updates Combined)
+ * 
+ * CSV Columns: Month-Year,Value,Cumulative Value
+ * 
+ * Represents monthly update totals across all types with cumulative counts.
+ */
+export interface MonthlyUpdateAggregate {
+    /** Month in MMM-YYYY format (e.g., "Jan-2025") */
+    monthYear: string;
+
+    /** Monthly update count */
+    value: number;
+
+    /** Cumulative total updates */
+    cumulativeValue: number;
+}
+
 // ============================================================================
 // Data Loading Functions
 // ============================================================================
@@ -128,10 +164,19 @@ function parseCSV<T>(csvText: string): T[] {
             const value = values[index];
 
             // Convert numeric columns to numbers
+            // Handle quoted numeric values from aggregate CSVs
             if (header.startsWith('age_') || header.startsWith('demo_age_') || header.startsWith('bio_age_')) {
                 record[header] = parseInt(value, 10) || 0;
+            } else if (header === 'cnt' || header === 'cumulative' || header === 'Value' || header === 'Cumulative Value') {
+                // Parse aggregate statistics (remove quotes and parse)
+                const cleanValue = value.replace(/"/g, '');
+                record[header === 'Cumulative Value' ? 'cumulativeValue' : header === 'Month-Year' ? 'monthYear' : header] = parseInt(cleanValue, 10) || 0;
+            } else if (header === 'Month-Year') {
+                record['monthYear'] = value.replace(/"/g, '');
+            } else if (header === 'req_month') {
+                record[header] = value.replace(/"/g, '');
             } else {
-                record[header] = value;
+                record[header] = value.replace(/"/g, '');
             }
         });
 
@@ -223,6 +268,76 @@ export async function loadBiometricUpdateData(): Promise<AadhaarBiometricUpdateR
         return allRecords;
     } catch (error) {
         console.error('Error loading biometric update data:', error);
+        return [];
+    }
+}
+
+/**
+ * Load Monthly Aggregate Enrolment Statistics (All States)
+ * 
+ * @returns Promise resolving to array of monthly aggregate records
+ */
+export async function loadMonthlyEnrolmentAggregates(): Promise<MonthlyEnrolmentAggregate[]> {
+    try {
+        const response = await fetch('/src/data/AllStates_MonthWise.csv');
+        if (!response.ok) {
+            throw new Error(`Failed to load monthly enrolment aggregates: ${response.statusText}`);
+        }
+
+        const csvText = await response.text();
+        const lines = csvText.trim().split('\n');
+        const records: MonthlyEnrolmentAggregate[] = [];
+
+        // Skip header and parse data
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',').map(v => v.replace(/"/g, '').trim());
+            if (values.length === 3 && values[0]) {
+                records.push({
+                    req_month: values[0],
+                    cnt: parseInt(values[1], 10) || 0,
+                    cumulative: parseInt(values[2], 10) || 0,
+                });
+            }
+        }
+
+        return records;
+    } catch (error) {
+        console.error('Error loading monthly enrolment aggregates:', error);
+        return [];
+    }
+}
+
+/**
+ * Load Monthly Aggregate Update Statistics (All Updates)
+ * 
+ * @returns Promise resolving to array of monthly update aggregate records
+ */
+export async function loadMonthlyUpdateAggregates(): Promise<MonthlyUpdateAggregate[]> {
+    try {
+        const response = await fetch('/src/data/AllUpdates_MonthWise.csv');
+        if (!response.ok) {
+            throw new Error(`Failed to load monthly update aggregates: ${response.statusText}`);
+        }
+
+        const csvText = await response.text();
+        const lines = csvText.trim().split('\n');
+        const records: MonthlyUpdateAggregate[] = [];
+
+        // Skip header and parse data
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',').map(v => v.replace(/"/g, '').trim());
+            if (values.length === 3 && values[0]) {
+                records.push({
+                    monthYear: values[0],
+                    value: parseInt(values[1], 10) || 0,
+                    cumulativeValue: parseInt(values[2], 10) || 0,
+                });
+            }
+        }
+
+        return records;
+    } catch (error) {
+        console.error('Error loading monthly update aggregates:', error);
         return [];
     }
 }
