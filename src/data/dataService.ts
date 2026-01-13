@@ -170,7 +170,13 @@ function parseCSV<T>(csvText: string): T[] {
             } else if (header === 'cnt' || header === 'cumulative' || header === 'Value' || header === 'Cumulative Value') {
                 // Parse aggregate statistics (remove quotes and parse)
                 const cleanValue = value.replace(/"/g, '');
-                record[header === 'Cumulative Value' ? 'cumulativeValue' : header === 'Month-Year' ? 'monthYear' : header] = parseInt(cleanValue, 10) || 0;
+                if (header === 'Cumulative Value') {
+                    record['cumulativeValue'] = parseInt(cleanValue, 10) || 0;
+                } else if (header === 'Value') {
+                    record['value'] = parseInt(cleanValue, 10) || 0;
+                } else {
+                    record[header] = parseInt(cleanValue, 10) || 0;
+                }
             } else if (header === 'Month-Year') {
                 record['monthYear'] = value.replace(/"/g, '');
             } else if (header === 'req_month') {
