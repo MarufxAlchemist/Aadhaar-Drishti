@@ -119,7 +119,9 @@ npm install
 npm run dev
 ```
 
-The application will be available at `http://localhost:8080`
+**Live Demo:** [https://aadhar-insights-engine.vercel.app/](https://aadhar-insights-engine.vercel.app/)
+
+For local development, the application will be available at `http://localhost:8080`
 
 ### Build for Production
 
