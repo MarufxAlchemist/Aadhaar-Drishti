@@ -53,7 +53,7 @@ export function DashboardLayout({
   const { title, subtitle } = sectionTitles[activeSection] || sectionTitles.overview;
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background">
       <Sidebar
         activeSection={activeSection}
         onSectionChange={onSectionChange}
@@ -62,7 +62,8 @@ export function DashboardLayout({
       />
       <main
         className={cn(
-          "flex-1 transition-all duration-300"
+          "transition-all duration-300",
+          sidebarCollapsed ? "ml-16" : "ml-64"
         )}
       >
         <Header title={title} subtitle={subtitle} onFilterChange={onFilterChange} />

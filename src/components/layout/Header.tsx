@@ -1,4 +1,5 @@
 import { GlobalFilters, FilterState } from "@/components/filters/GlobalFilters";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderProps {
   title: string;
@@ -24,6 +25,7 @@ export function Header({ title, subtitle, onFilterChange }: HeaderProps) {
               )}
             </div>
           </div>
+          <ThemeToggle />
         </div>
       </div>
       <GlobalFilters onFilterChange={onFilterChange} />

@@ -39,7 +39,7 @@ export function Sidebar({ activeSection, onSectionChange, collapsed, onCollapsed
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300 z-50 flex flex-col relative",
+        "fixed left-0 top-0 h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300 z-50 flex flex-col",
         collapsed ? "w-16" : "w-64"
       )}
     >
