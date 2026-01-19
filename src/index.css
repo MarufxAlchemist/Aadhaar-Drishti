@@ -389,7 +389,7 @@
 
   /* Hide non-essential elements */
   aside,
-  header button,
+  header,
   .print\\:hidden,
   button {
     display: none !important;
