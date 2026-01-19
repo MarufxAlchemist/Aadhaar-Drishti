@@ -22,7 +22,11 @@ import { Download, Printer, FileText, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FilterState } from "@/components/filters/GlobalFilters";
 import { calculateFilteredMetrics, formatNumber as formatNum } from "@/utils/filterUtils";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { ShareDialog } from "@/components/ui/ShareDialog";
+import { useToast } from "@/hooks/use-toast";
 
 interface VisualInsightsSectionProps {
   filters?: FilterState;
@@ -90,6 +94,10 @@ const COLORS = [
 ];
 
 export function VisualInsightsSection({ filters }: VisualInsightsSectionProps) {
+  const [isExporting, setIsExporting] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const { toast } = useToast();
+
   // Calculate filtered metrics
   const metrics = useMemo(() => calculateFilteredMetrics(filters), [filters]);
 
@@ -174,6 +182,82 @@ export function VisualInsightsSection({ filters }: VisualInsightsSectionProps) {
     return selectedType ? [selectedType] : updateTypeBreakdown;
   }, [filters?.updateType]);
 
+  // Generate shareable URL with filter state
+  const shareableUrl = useMemo(() => {
+    const url = new URL(window.location.href);
+    url.hash = "#/insights";
+    if (filters?.state && filters.state !== "ALL") {
+      url.searchParams.set("state", filters.state);
+    }
+    if (filters?.updateType && filters.updateType !== "all") {
+      url.searchParams.set("updateType", filters.updateType);
+    }
+    if (filters?.timePreset) {
+      url.searchParams.set("timePreset", filters.timePreset);
+    }
+    return url.toString();
+  }, [filters]);
+
+  // Export as PDF
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      const element = document.querySelector(".space-y-6.animate-fade-in") as HTMLElement;
+      if (!element) {
+        throw new Error("Content not found");
+      }
+
+      // Capture the content as canvas
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+
+      // Create PDF
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgWidth = 297; // A4 landscape width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+      // Download PDF
+      const date = new Date().toISOString().split("T")[0];
+      pdf.save(`Aadhaar-Insights-Export-${date}.pdf`);
+
+      toast({
+        title: "Export successful!",
+        description: "Your PDF has been downloaded.",
+      });
+    } catch (error) {
+      console.error("Export failed:", error);
+      toast({
+        title: "Export failed",
+        description: "There was an error generating the PDF. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  // Print view
+  const handlePrint = () => {
+    window.print();
+  };
+
+  // Share
+  const handleShare = () => {
+    setShareDialogOpen(true);
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Export Actions */}
@@ -190,15 +274,31 @@ export function VisualInsightsSection({ filters }: VisualInsightsSectionProps) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={handleExportPDF}
+            disabled={isExporting}
+          >
             <Download className="w-4 h-4" />
-            Export All
+            {isExporting ? "Exporting..." : "Export All"}
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={handlePrint}
+          >
             <Printer className="w-4 h-4" />
             Print View
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={handleShare}
+          >
             <Share2 className="w-4 h-4" />
             Share
           </Button>
@@ -527,6 +627,13 @@ export function VisualInsightsSection({ filters }: VisualInsightsSectionProps) {
           </p>
         </div>
       </div>
+
+      {/* Share Dialog */}
+      <ShareDialog
+        open={shareDialogOpen}
+        onOpenChange={setShareDialogOpen}
+        url={shareableUrl}
+      />
     </div>
   );
 }

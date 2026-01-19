@@ -383,3 +383,60 @@
     }
   }
 }
+
+/* Print-specific styles */
+@media print {
+
+  /* Hide non-essential elements */
+  aside,
+  header button,
+  .print\\:hidden,
+  button {
+    display: none !important;
+  }
+
+  /* Show main content full width */
+  main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Optimize page layout */
+  body {
+    background: white !important;
+  }
+
+  /* Ensure cards print properly */
+  .gov-card {
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+
+  /* Optimize charts for print */
+  .recharts-wrapper {
+    page-break-inside: avoid;
+  }
+
+  /* Remove animations */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Ensure text is readable */
+  body,
+  .text-foreground {
+    color: #000 !important;
+  }
+
+  .text-muted-foreground {
+    color: #666 !important;
+  }
+
+  /* Page breaks */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
