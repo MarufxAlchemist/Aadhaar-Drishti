@@ -17,6 +17,7 @@ import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const INDIAN_STATES = [
   { code: "ALL", name: "All States" },
@@ -95,6 +96,7 @@ export function GlobalFilters({ onFilterChange }: GlobalFiltersProps) {
   const [updateType, setUpdateType] = useState("all");
   const [timePreset, setTimePreset] = useState("1y");
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleFilterChange = (newFilters: Partial<FilterState>) => {
     const filters: FilterState = {
@@ -163,13 +165,13 @@ export function GlobalFilters({ onFilterChange }: GlobalFiltersProps) {
   const selectedState = INDIAN_STATES.find((s) => s.code === state);
 
   return (
-    <div className="bg-card border-b border-border px-6 py-3">
-      <div className="flex items-center gap-3 flex-wrap">
+    <div className="bg-card border-b border-border px-4 md:px-6 py-3">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 flex-wrap">
         {/* State Filter */}
-        <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-muted-foreground" />
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <MapPin className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           <Select value={state} onValueChange={handleStateChange}>
-            <SelectTrigger className="w-[180px] h-9 text-sm">
+            <SelectTrigger className="w-full md:w-[180px] h-9 text-sm">
               <SelectValue placeholder="Select State" />
             </SelectTrigger>
             <SelectContent className="max-h-[300px]">
@@ -184,7 +186,7 @@ export function GlobalFilters({ onFilterChange }: GlobalFiltersProps) {
 
         {/* Time Preset */}
         <Select value={timePreset} onValueChange={handleTimePresetChange}>
-          <SelectTrigger className="w-[140px] h-9 text-sm">
+          <SelectTrigger className="w-full md:w-[140px] h-9 text-sm">
             <SelectValue placeholder="Time Range" />
           </SelectTrigger>
           <SelectContent>
@@ -199,14 +201,14 @@ export function GlobalFilters({ onFilterChange }: GlobalFiltersProps) {
         {/* Calendar Range Picker */}
         <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2 h-9">
-              <Calendar className="w-4 h-4" />
-              <span className="text-sm">
+            <Button variant="outline" size="sm" className="gap-2 h-9 w-full md:w-auto justify-start">
+              <Calendar className="w-4 h-4 flex-shrink-0" />
+              <span className="text-sm truncate">
                 {dateRange?.from && dateRange?.to
                   ? `${format(dateRange.from, "dd MMM yy")} – ${format(dateRange.to, "dd MMM yy")}`
                   : "Select dates"}
               </span>
-              <ChevronDown className="w-3 h-3 opacity-50" />
+              <ChevronDown className="w-3 h-3 opacity-50 ml-auto" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -220,17 +222,17 @@ export function GlobalFilters({ onFilterChange }: GlobalFiltersProps) {
                   handleFilterChange({ dateRange: range, timePreset: "custom" });
                 }
               }}
-              numberOfMonths={2}
+              numberOfMonths={isMobile ? 1 : 2}
               defaultMonth={dateRange?.from}
             />
           </PopoverContent>
         </Popover>
 
         {/* Update Type Filter */}
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-muted-foreground" />
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <Filter className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           <Select value={updateType} onValueChange={handleUpdateTypeChange}>
-            <SelectTrigger className="w-[180px] h-9 text-sm">
+            <SelectTrigger className="w-full md:w-[180px] h-9 text-sm">
               <SelectValue placeholder="Update Type" />
             </SelectTrigger>
             <SelectContent>
@@ -245,7 +247,7 @@ export function GlobalFilters({ onFilterChange }: GlobalFiltersProps) {
 
         {/* Active Filters Display */}
         {hasActiveFilters && (
-          <div className="flex items-center gap-2 ml-auto">
+          <div className="flex items-center gap-2 w-full md:w-auto md:ml-auto">
             <span className="text-xs text-muted-foreground">Active filters:</span>
             {state !== "ALL" && (
               <Badge variant="secondary" className="text-xs">
@@ -261,7 +263,7 @@ export function GlobalFilters({ onFilterChange }: GlobalFiltersProps) {
               variant="ghost"
               size="sm"
               onClick={clearFilters}
-              className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground"
+              className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground ml-auto md:ml-0"
             >
               <X className="w-3 h-3 mr-1" />
               Clear

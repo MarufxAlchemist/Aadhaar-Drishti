@@ -3,6 +3,7 @@ import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { cn } from "@/lib/utils";
 import { FilterState } from "@/components/filters/GlobalFilters";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -49,24 +50,41 @@ export function DashboardLayout({
   onFilterChange,
 }: DashboardLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const { title, subtitle } = sectionTitles[activeSection] || sectionTitles.overview;
+
+  const handleSectionChange = (section: string) => {
+    onSectionChange(section);
+    // Auto-close drawer on mobile when navigation item is clicked
+    if (isMobile) {
+      setMobileDrawerOpen(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <Sidebar
         activeSection={activeSection}
-        onSectionChange={onSectionChange}
+        onSectionChange={handleSectionChange}
         collapsed={sidebarCollapsed}
         onCollapsedChange={setSidebarCollapsed}
+        mobileOpen={mobileDrawerOpen}
+        onMobileOpenChange={setMobileDrawerOpen}
       />
       <main
         className={cn(
           "transition-all duration-300",
-          sidebarCollapsed ? "ml-16" : "ml-64"
+          isMobile ? "ml-0" : sidebarCollapsed ? "ml-16" : "ml-64"
         )}
       >
-        <Header title={title} subtitle={subtitle} onFilterChange={onFilterChange} />
+        <Header
+          title={title}
+          subtitle={subtitle}
+          onFilterChange={onFilterChange}
+          onMenuClick={() => setMobileDrawerOpen(true)}
+        />
         <div className="p-6">{children}</div>
       </main>
     </div>

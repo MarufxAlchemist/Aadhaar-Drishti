@@ -322,4 +322,64 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Mobile-responsive utilities */
+  .mobile-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  @media (max-width: 767px) {
+    .mobile-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Touch-friendly tap targets (minimum 44px) */
+  .tap-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Mobile padding adjustments */
+  .mobile-p-4 {
+    @apply p-4;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-p-4 {
+      @apply p-6;
+    }
+  }
+
+  /* Responsive text sizes */
+  .text-responsive-sm {
+    @apply text-xs;
+  }
+
+  @media (min-width: 768px) {
+    .text-responsive-sm {
+      @apply text-sm;
+    }
+  }
+
+  .text-responsive-base {
+    @apply text-sm;
+  }
+
+  @media (min-width: 768px) {
+    .text-responsive-base {
+      @apply text-base;
+    }
+  }
+
+  /* Horizontal scroll for charts on mobile */
+  .chart-scroll-mobile {
+    @apply overflow-x-auto;
+  }
+
+  @media (min-width: 768px) {
+    .chart-scroll-mobile {
+      @apply overflow-x-visible;
+    }
+  }
 }
