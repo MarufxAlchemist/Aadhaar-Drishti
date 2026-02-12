@@ -1,3 +1,4 @@
+// Global filters component for the Aadhaar Compass dashboard
 import { useState } from "react";
 import { Calendar, ChevronDown, MapPin, Filter, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
