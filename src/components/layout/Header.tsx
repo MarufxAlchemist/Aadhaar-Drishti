@@ -1,5 +1,6 @@
 import { GlobalFilters, FilterState } from "@/components/filters/GlobalFilters";
 import { ThemeToggle } from "./ThemeToggle";
+// Header component with branding and theme toggle
 import { Menu } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
