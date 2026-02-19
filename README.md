@@ -11,7 +11,7 @@
 
 ---
 
-## 📌 About the Project
+## 📌 About this Project
 
 **Aadhaar Drishti** (दृष्टि — *vision* or *perspective*) is a governance-grade analytical dashboard designed to interpret aggregate Aadhaar enrolment and update data as societal and administrative signals.
 
