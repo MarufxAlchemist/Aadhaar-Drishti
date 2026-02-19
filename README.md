@@ -73,11 +73,11 @@ Government of India Open Data Platform ([data.gov.in](https://data.gov.in)) / UI
 
 ## 🧪 Methodology (High-Level)
 
-1. **Explicit data loading** from static sources
-2. **State- and month-level aggregation**
-3. **Normalization** for cross-region comparability
-4. **Identification** of temporal and regional deviations
-5. **Clear documentation** of assumptions and limitations
+1. **Explicit data loading** from static sources.
+2. **State- and month-level aggregation**.
+3. **Normalization** for cross-region comparability.
+4. **Identification** of temporal and regional deviations.
+5. **Clear documentation** of assumptions and limitations.
 
 A dedicated **Methodology & Transparency** section within the dashboard outlines interpretation boundaries to prevent over-generalization.
 
