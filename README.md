@@ -79,7 +79,7 @@ Government of India Open Data Platform ([data.gov.in](https://data.gov.in)) / UI
 4. **Identification** of temporal and regional deviations.
 5. **Clear documentation** of assumptions and limitations.
 
-A dedicated **Methodology & Transparency** section within the dashboard outlines interpretation boundaries to prevent over-generalization.
+A dedicated **Methodology & Transparency** section within the dashboard outlines interpretation boundaries to prevent over-generalization
 
 ---
 
