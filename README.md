@@ -17,7 +17,7 @@
 
 Rather than presenting raw counts, the platform applies **normalization and comparative analysis** to highlight regions and time periods exhibiting unusual update behaviour relative to enrolment baselines. These patterns can support administrative review, infrastructure planning, and operational prioritization.
 
-The project is developed as part of the **UIDAI Hackathon 2026** and is intentionally designed as a **decision-support instrument**, not a predictive or causal system.
+The project is developed as part of the **UIDAI Hackathon 2026** and is intentionally designed as a **decision-support instrument**, not a predictive or causal system
 
 ---
 
